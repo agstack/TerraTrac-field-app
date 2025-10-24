@@ -44,6 +44,10 @@ import org.technoserve.farmcollector.ui.screens.ScreenWithSidebar
 import org.technoserve.farmcollector.ui.screens.SetPolygon
 import org.technoserve.farmcollector.ui.screens.SettingsScreen
 import org.technoserve.farmcollector.ui.screens.UpdateFarmForm
+import org.technoserve.farmcollector.ui.screens.CitizenScienceHub
+import org.technoserve.farmcollector.ui.screens.RainForm
+import org.technoserve.farmcollector.ui.screens.PhotoForm
+import org.technoserve.farmcollector.ui.screens.ForecastViewer
 import org.technoserve.farmcollector.ui.theme.FarmCollectorTheme
 import org.technoserve.farmcollector.utils.LanguageViewModel
 import org.technoserve.farmcollector.utils.LanguageViewModelFactory
@@ -62,6 +66,13 @@ object Routes {
     const val UPDATE_FARM = "updateFarm/{farmId}"
     const val SET_POLYGON = "setPolygon"
     const val SETTINGS = "settings"
+    
+    // Citizen Science routes
+    const val CITIZEN_SCIENCE = "citizenscience"
+    const val CITIZEN_SCIENCE_RAIN = "citizenscience/rain"
+    const val CITIZEN_SCIENCE_PHOTO = "citizenscience/photo"
+    const val CITIZEN_SCIENCE_FORECAST = "citizenscience/forecast"
+    const val CITIZEN_SCIENCE_FIELDS = "citizenscience/fields"
 }
 
 
@@ -86,6 +97,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         locationHelper = LocationHelper(this)
+        
+        // Handle deep links
+        handleDeepLink(intent)
 
         val darkMode = mutableStateOf(sharedPreferences.getBoolean("dark_mode", false))
 
@@ -225,10 +239,68 @@ class MainActivity : ComponentActivity() {
                                 languages,
                             )
                         }
+                        
+                        // Citizen Science routes
+                        composable(Routes.CITIZEN_SCIENCE) {
+                            LaunchedEffect(Unit) {
+                                canExitApp = false
+                            }
+                            CitizenScienceHub(navController)
+                        }
+                        composable(Routes.CITIZEN_SCIENCE_RAIN) {
+                            LaunchedEffect(Unit) {
+                                canExitApp = false
+                            }
+                            RainForm(navController)
+                        }
+                        composable(Routes.CITIZEN_SCIENCE_PHOTO) {
+                            LaunchedEffect(Unit) {
+                                canExitApp = false
+                            }
+                            PhotoForm(navController)
+                        }
+                        composable(Routes.CITIZEN_SCIENCE_FORECAST) {
+                            LaunchedEffect(Unit) {
+                                canExitApp = false
+                            }
+                            ForecastViewer(navController)
+                        }
+                        composable(Routes.CITIZEN_SCIENCE_FIELDS) {
+                            LaunchedEffect(Unit) {
+                                canExitApp = false
+                            }
+                            // TODO: Implement fields management screen
+                            CitizenScienceHub(navController)
+                        }
                     }
                 }
             }
 
+        }
+    }
+    
+    /**
+     * Handles deep link navigation
+     * @param intent The intent containing the deep link
+     */
+    private fun handleDeepLink(intent: android.content.Intent?) {
+        val data = intent?.data
+        if (data != null && data.host == "tt.earthcast.ai") {
+            val path = data.path
+            when {
+                path == "/citizenscience" -> {
+                    // Navigate to Citizen Science hub
+                    // This will be handled by the NavController in the composable
+                }
+                path == "/citizenscience/rain" -> {
+                    // Navigate to Rain form
+                    // This will be handled by the NavController in the composable
+                }
+                path == "/citizenscience/photo" -> {
+                    // Navigate to Photo form
+                    // This will be handled by the NavController in the composable
+                }
+            }
         }
     }
 

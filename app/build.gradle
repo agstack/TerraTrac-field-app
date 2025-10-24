@@ -158,4 +158,14 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation 'com.opencsv:opencsv:5.5.2'
+    
+    // Matrix SDK for messaging
+    implementation 'org.matrix.android:matrix-android-sdk2:1.5.35'
+    
+    // S2 geometry library for cell computation
+    implementation 'com.google.s2:s2-geometry:1.0.0'
+    
+    // Additional dependencies for Citizen Science features
+    implementation 'androidx.browser:browser:1.5.0'
+    implementation 'com.google.android.material:material:1.9.0'
 }

@@ -112,6 +112,15 @@ fun SettingsScreen(
                     )
                 }
             }
+            
+            // Citizen Science Settings
+            Text(
+                text = "Citizen Science Settings",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            
+            CitizenScienceSettingsCard()
         }
     }
 }
@@ -134,5 +143,88 @@ fun LanguageCard(language: Language, isSelected: Boolean, onSelect: (String) -> 
             text = language.displayName,
             modifier = Modifier.padding(16.dp),
         )
+    }
+}
+
+@Composable
+fun CitizenScienceSettingsCard() {
+    val context = LocalContext.current
+    val settingsPrefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+    
+    var matrixHomeserver by remember { 
+        mutableStateOf(settingsPrefs.getString("MATRIX_HOMESERVER", "https://matrix.org") ?: "https://matrix.org")
+    }
+    var terrapipeBase by remember { 
+        mutableStateOf(settingsPrefs.getString("TERRAPIPE_BASE", "https://terrapipe.io") ?: "https://terrapipe.io")
+    }
+    var earthcastApiBase by remember { 
+        mutableStateOf(settingsPrefs.getString("EARTHCAST_API_BASE", "https://api.earthcast.ai") ?: "https://api.earthcast.ai")
+    }
+    var agstackApiBase by remember { 
+        mutableStateOf(settingsPrefs.getString("AGSTACK_API_BASE", "https://api.agstack.org") ?: "https://api.agstack.org")
+    }
+    
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = "API Endpoints",
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold
+            )
+            
+            OutlinedTextField(
+                value = matrixHomeserver,
+                onValueChange = { matrixHomeserver = it },
+                label = { Text("Matrix Homeserver") },
+                modifier = Modifier.fillMaxWidth(),
+                onFocusChange = { focused ->
+                    if (!focused) {
+                        settingsPrefs.edit().putString("MATRIX_HOMESERVER", matrixHomeserver).apply()
+                    }
+                }
+            )
+            
+            OutlinedTextField(
+                value = terrapipeBase,
+                onValueChange = { terrapipeBase = it },
+                label = { Text("TERRAPIPE_BASE") },
+                modifier = Modifier.fillMaxWidth(),
+                onFocusChange = { focused ->
+                    if (!focused) {
+                        settingsPrefs.edit().putString("TERRAPIPE_BASE", terrapipeBase).apply()
+                    }
+                }
+            )
+            
+            OutlinedTextField(
+                value = earthcastApiBase,
+                onValueChange = { earthcastApiBase = it },
+                label = { Text("EARTHCAST_API_BASE") },
+                modifier = Modifier.fillMaxWidth(),
+                onFocusChange = { focused ->
+                    if (!focused) {
+                        settingsPrefs.edit().putString("EARTHCAST_API_BASE", earthcastApiBase).apply()
+                    }
+                }
+            )
+            
+            OutlinedTextField(
+                value = agstackApiBase,
+                onValueChange = { agstackApiBase = it },
+                label = { Text("AGSTACK_API_BASE") },
+                modifier = Modifier.fillMaxWidth(),
+                onFocusChange = { focused ->
+                    if (!focused) {
+                        settingsPrefs.edit().putString("AGSTACK_API_BASE", agstackApiBase).apply()
+                    }
+                }
+            )
+        }
     }
 }

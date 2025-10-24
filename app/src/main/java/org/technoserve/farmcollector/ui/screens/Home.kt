@@ -90,26 +90,56 @@ fun Home(
             )
         }
 
-        Box(
-            modifier = Modifier
-                .padding(30.dp)
-                .background(
-                    color = Teal,
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .clickable {
-                    navController.navigate("siteList")
-                }
-                .padding(16.dp)
+        // Main action buttons
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                text = stringResource(id = R.string.get_started),
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    color = White
-                ),
-                modifier = Modifier.align(Alignment.Center)
-            )
+            // Original TerraTrac button
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .background(
+                        color = Teal,
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                    .clickable {
+                        navController.navigate("siteList")
+                    }
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.get_started),
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        color = White
+                    ),
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+            
+            // Citizen Science button
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .background(
+                        color = Turquoise,
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                    .clickable {
+                        navController.navigate("citizenscience")
+                    }
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Citizen Science",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        color = White
+                    ),
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
         }
 
         Spacer(modifier = Modifier.fillMaxHeight(0.2f))
@@ -132,22 +162,39 @@ fun Home(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.Bottom
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 5.dp),
+                    text = stringResource(id = R.string.developed_by),
+                    color = Teal // Apply Teal color for the developer label
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.tns_labs),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(130.dp)
+                        .height(20.dp)
+                )
+            }
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            
             Text(
-                modifier = Modifier.padding(start = 20.dp, end = 5.dp),
-                text = stringResource(id = R.string.developed_by),
-                color = Teal // Apply Teal color for the developer label
-            )
-            Image(
-                painter = painterResource(id = R.drawable.tns_labs),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(130.dp)
-                    .height(20.dp)
+                text = "Powered by TerraTrac by AgStack",
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    color = Teal,
+                    fontWeight = FontWeight.Medium
+                ),
+                textAlign = TextAlign.Center
             )
         }
 
